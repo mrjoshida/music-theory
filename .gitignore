@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+
+# Testing & Coverage
+coverage/
+*.lcov
+.nyc_output
+.vitest/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sw?
+*.bak
+*.tmp
+
+# Environment & Build caches
+.env
+.env.local
+*.tsbuildinfo
