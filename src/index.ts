@@ -4,4 +4,4 @@ export * from "./keys";
 export * from "./diatonic";
 export * from "./analysis";
 export * from "./notes";
-
+export * from "./tunings";

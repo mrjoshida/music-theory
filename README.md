@@ -4,7 +4,13 @@ A lightweight, robust TypeScript music theory and functional harmony library bui
 
 ## Features
 
-- **Key & Mode Parsing**: Case-tolerant parsing and formatting for musical keys and modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian).
+- **Key & Mode Parsing**: Case-tolerant parsing and formatting for musical keys and modes (Major, Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Harmonic Minor, Melodic Minor).
+- **Scale Pitch Classes** (`getScalePitchClasses`): Ordered pitch-class names (no octave) for any key and mode.
+- **Pitch Classification** (`classifyPitch`): Enharmonic-safe chord role (`root`, `third`, `fifth`, `seventh`), suspension role (`sus2`, `sus4`), and in-scale detection on any 0-indexed scale degree.
+- **Modal Roman Numerals** (`getRomanNumeral`): Triad and 7th chord modal Roman numerals relative to parallel major (e.g. `bVII`, `bVImaj7`, `iiø7`, `vii°7`).
+- **Suspended Chords** (`getSuspendedChord`): True M2/P4 suspended chord generation (`sus2`, `sus4`).
+- **Key-Aware MIDI Translation** (`midiToPitchInKey`): Converts MIDI numbers to scientific pitch strings respecting key spelling.
+- **Instrument Tunings** (`TUNING_PRESETS`, `validateTuning`): Comprehensive preset library and tuning validator for 1-6 fretted string instruments.
 - **Diatonic Chord Generation**:
   - Rich object mode (`getDiatonicChords`): Returns triads and 7ths with Roman numerals (e.g. `I`, `ii`, `V7`, `viiø7`).
   - Fast string array mode (`getDiatonicChordNames`): Cached string array representations.
@@ -95,6 +101,51 @@ analyzeChordRelationship("A7", "C", "major");
 ```
 
 ---
+
+
+### 5. Pitch Classification & Scale Degrees
+
+```typescript
+import { classifyPitch, getScalePitchClasses, getRomanNumeral } from "@mrjoshida/music-theory";
+
+// Get scale pitch classes without octaves
+getScalePitchClasses("A", "Harmonic Minor");
+// ["A", "B", "C", "D", "E", "F", "G#"]
+
+// Classify pitch (MIDI or note string) relative to degree ii (1) in C Major
+classifyPitch(40, "C", "Major", 1); // 40 = E2
+// { chordRole: null, susRole: "sus2", inScale: true }
+
+classifyPitch(41, "C", "Major", 1); // 41 = F2
+// { chordRole: "third", susRole: null, inScale: true }
+
+// Modal Roman numeral
+getRomanNumeral("C", "Mixolydian", 6); // "bVII"
+getRomanNumeral("C", "Harmonic Minor", 6, true); // "vii°7"
+```
+
+### 6. Tunings & MIDI Translation
+
+```typescript
+import {
+  TUNING_PRESETS,
+  validateTuning,
+  midiToPitchInKey,
+  getSuspendedChord
+} from "@mrjoshida/music-theory";
+
+// Key-aware MIDI conversion
+midiToPitchInKey(70, "F", "Major"); // "Bb4"
+midiToPitchInKey(66, "G", "Major"); // "F#4"
+midiToPitchInKey(61, "F", "Major"); // "Db4"
+
+// Suspended chords
+getSuspendedChord("E", "sus2"); // { name: "Esus2", notes: ["E", "F#", "B"] }
+
+// Validate custom tuning
+validateTuning([40, 45, 50, 55, 59, 64]); // { ok: true }
+validateTuning([114]); // { ok: false, errors: [...] }
+```
 
 ## Development
 

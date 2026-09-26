@@ -13,7 +13,8 @@ export function parseKey(keyStr?: string): { root: string; mode: string } {
   const trimmed = keyStr.trim();
 
   // Check explicit mode words first
-  const modeMatch = trimmed.match(/^([A-G][#b]?)\s*(Major|Minor|Dorian|Phrygian|Lydian|Mixolydian|Locrian)$/i);
+  const modePattern = KEY_MODES.join("|");
+  const modeMatch = trimmed.match(new RegExp(`^([A-G][#b]?)\\s*(${modePattern})$`, "i"));
   if (modeMatch) {
     const rawRoot = modeMatch[1].toUpperCase();
     const formattedRoot = rawRoot.length > 1 ? rawRoot[0] + modeMatch[1][1] : rawRoot;
