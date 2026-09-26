@@ -179,8 +179,14 @@ export function classifyPitch(
   // Determine chroma of the input pitch (0-11)
   let pitchChroma: number;
   if (typeof pcOrMidi === "number") {
+    if (!Number.isFinite(pcOrMidi)) {
+      return { chordRole: null, susRole: null, inScale: false };
+    }
     pitchChroma = ((Math.round(pcOrMidi) % 12) + 12) % 12;
   } else {
+    if (typeof pcOrMidi === "string" && pcOrMidi.trim() === "") {
+      return { chordRole: null, susRole: null, inScale: false };
+    }
     const c = Note.chroma(pcOrMidi);
     if (c !== undefined && c !== null) {
       pitchChroma = c;
