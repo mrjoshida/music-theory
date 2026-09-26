@@ -14,6 +14,8 @@ export const KEY_MODES = [
   "Lydian",
   "Mixolydian",
   "Locrian",
+  "Harmonic Minor",
+  "Melodic Minor",
 ] as const;
 
 export type KeyMode = typeof KEY_MODES[number];
