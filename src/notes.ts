@@ -22,14 +22,19 @@ export function getScalePitchNotes(root: string, mode: string, octave: number = 
   if (scaleData.empty || !scaleData.intervals || scaleData.intervals.length === 0) {
     // Fallback to major scale
     const fallback = Scale.get(`${root} major`);
-    const tonicWithOct = `${root}${octave}`;
-    return (fallback.intervals || ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]).map((interval) =>
-      Note.transpose(tonicWithOct, interval)
-    );
+    if (fallback.empty || !fallback.intervals || fallback.intervals.length === 0) {
+      return [];
+    }
+    const tonicWithOct = `${fallback.tonic || root}${octave}`;
+    return fallback.intervals
+      .map((interval) => Note.transpose(tonicWithOct, interval))
+      .filter(Boolean);
   }
 
   const tonicWithOct = `${scaleData.tonic || root}${octave}`;
-  return scaleData.intervals.map((interval) => Note.transpose(tonicWithOct, interval));
+  return scaleData.intervals
+    .map((interval) => Note.transpose(tonicWithOct, interval))
+    .filter(Boolean);
 }
 
 /**
@@ -122,13 +127,19 @@ export function getScalePitchClasses(root: string, mode: string): string[] {
 
   if (scaleData.empty || !scaleData.intervals || scaleData.intervals.length === 0) {
     const fallback = Scale.get(`${root} major`);
-    const tonicWithOct = `${root}4`;
-    const intervals = fallback.intervals || ["1P", "2M", "3M", "4P", "5P", "6M", "7M"];
-    return intervals.map((interval) => Note.pitchClass(Note.transpose(tonicWithOct, interval)));
+    if (fallback.empty || !fallback.intervals || fallback.intervals.length === 0) {
+      return [];
+    }
+    const tonicWithOct = `${fallback.tonic || root}4`;
+    return fallback.intervals
+      .map((interval) => Note.pitchClass(Note.transpose(tonicWithOct, interval)))
+      .filter(Boolean);
   }
 
   const tonicWithOct = `${scaleData.tonic || root}4`;
-  return scaleData.intervals.map((interval) => Note.pitchClass(Note.transpose(tonicWithOct, interval)));
+  return scaleData.intervals
+    .map((interval) => Note.pitchClass(Note.transpose(tonicWithOct, interval)))
+    .filter(Boolean);
 }
 
 /**

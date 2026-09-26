@@ -181,6 +181,7 @@ export function getRomanNumeral(
     if (isMinor3rd && isPer5th) return `${acc}${romanLower}`;
     if (isMinor3rd && isDim5th) return `${acc}${romanLower}°`;
     if (isMajor3rd && isAug5th) return `${acc}${romanUpper}+`;
+    if (isMajor3rd && isDim5th) return `${acc}${romanUpper}b5`;
     return isMinor3rd ? `${acc}${romanLower}` : `${acc}${romanUpper}`;
   } else {
     const seventh = scale[(deg + 6) % numNotes];
@@ -201,6 +202,10 @@ export function getRomanNumeral(
     if (isMajor3rd && isAug5th) {
       if (seventhInterval === 11) return `${acc}${romanUpper}+maj7`;
       if (seventhInterval === 10) return `${acc}${romanUpper}+7`;
+    }
+    if (isMajor3rd && isDim5th) {
+      if (seventhInterval === 10) return `${acc}${romanUpper}7b5`;
+      if (seventhInterval === 11) return `${acc}${romanUpper}maj7b5`;
     }
     return isMinor3rd ? `${acc}${romanLower}7` : `${acc}${romanUpper}7`;
   }

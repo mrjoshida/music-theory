@@ -351,4 +351,32 @@ describe("v0.2.0 Additions", () => {
       expect(negRes.ok).toBe(false);
     });
   });
+
+  describe("v0.2.0 Review Regressions", () => {
+    it("getScalePitchClasses returns empty array for invalid root input", () => {
+      expect(getScalePitchClasses("Invalid", "Major")).toEqual([]);
+      expect(getScalePitchClasses("ZZZ", "Minor")).toEqual([]);
+      expect(classifyPitch(60, "Invalid", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+    });
+
+    it("getRomanNumeral renders b5 modifier for chords with major 3rd and diminished 5th (triad and 7th)", () => {
+      expect(getRomanNumeral("C", "locrian major", 0, false)).toBe("Ib5");
+      expect(getRomanNumeral("C", "locrian major", 0, true)).toBe("I7b5");
+      expect(getRomanNumeral("C", "persian", 0, true)).toBe("Imaj7b5");
+    });
+
+    it("validateTuning rejects negative or non-integer maxFret options", () => {
+      const negResult = validateTuning([40, 45, 50, 55, 59, 64], { maxFret: -5 });
+      expect(negResult.ok).toBe(false);
+      expect(negResult.errors).toContain("maxFret must be a non-negative integer (received -5)");
+
+      const floatResult = validateTuning([40, 45, 50, 55, 59, 64], { maxFret: 12.5 });
+      expect(floatResult.ok).toBe(false);
+      expect(floatResult.errors).toContain("maxFret must be a non-negative integer (received 12.5)");
+    });
+  });
 });

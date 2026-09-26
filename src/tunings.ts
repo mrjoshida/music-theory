@@ -154,6 +154,10 @@ export function validateTuning(
   const maxFret = opts?.maxFret ?? 14;
   const errors: string[] = [];
 
+  if (typeof maxFret !== "number" || !Number.isInteger(maxFret) || maxFret < 0) {
+    errors.push(`maxFret must be a non-negative integer (received ${maxFret})`);
+  }
+
   if (!Array.isArray(notes) || notes.length < 1 || notes.length > 6) {
     errors.push(
       `Tuning must have between 1 and 6 strings (received ${Array.isArray(notes) ? notes.length : 0})`

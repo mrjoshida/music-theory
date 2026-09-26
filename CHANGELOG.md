@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 20 instrument tuning presets across Guitar, Bass, Banjo, Mandolin, Ukulele, and Cigar Box Guitar.
   - `validateTuning` utility enforcing 1-6 strings, integer MIDI numbers >= 0, and note + maxFret <= 127.
 
+### Fixed
+- Return empty array from `getScalePitchClasses` and `getScalePitchNotes` when root is invalid or unrecognized.
+- Render `b5` modifier in `getRomanNumeral` for chords with major 3rd and diminished 5th (`b5`, `7b5`, `maj7b5`).
+- Enforce non-negative integer validation on `maxFret` option in `validateTuning`.
+
 ## [0.1.0] - 2026-03-01
 
 ### Added
