@@ -379,4 +379,70 @@ describe("v0.2.0 Additions", () => {
       expect(floatResult.errors).toContain("maxFret must be a non-negative integer (received 12.5)");
     });
   });
+
+  describe("v0.2.1 Review Regressions", () => {
+    it("classifyPitch handles empty and whitespace-only strings as invalid input", () => {
+      expect(classifyPitch("", "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+      expect(classifyPitch("   ", "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+      expect(classifyPitch("	\n", "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+      expect(classifyPitch("   ", "A", "Minor", 2)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+      expect(classifyPitch("invalid", "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+    });
+
+    it("classifyPitch still parses valid string MIDI numbers and numeric pitches", () => {
+      expect(classifyPitch("0", "C", "Major", 0)).toEqual({
+        chordRole: "root",
+        susRole: null,
+        inScale: true,
+      });
+      expect(classifyPitch("60", "C", "Major", 0)).toEqual({
+        chordRole: "root",
+        susRole: null,
+        inScale: true,
+      });
+      expect(classifyPitch(0, "C", "Major", 0)).toEqual({
+        chordRole: "root",
+        susRole: null,
+        inScale: true,
+      });
+      expect(classifyPitch(60, "C", "Major", 0)).toEqual({
+        chordRole: "root",
+        susRole: null,
+        inScale: true,
+      });
+    });
+
+    it("classifyPitch returns invalid for non-finite numeric input", () => {
+      expect(classifyPitch(NaN, "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+      expect(classifyPitch(Infinity, "C", "Major", 0)).toEqual({
+        chordRole: null,
+        susRole: null,
+        inScale: false,
+      });
+    });
+  });
 });

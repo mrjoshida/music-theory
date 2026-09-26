@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-09-25
+
+### Fixed
+- Defensive handling in `classifyPitch`: treat empty or whitespace-only pitch strings as invalid input returning `{ chordRole: null, susRole: null, inScale: false }` instead of coercing to 0 / root.
+
 ## [0.2.0] - 2026-09-25
 
 ### Added
