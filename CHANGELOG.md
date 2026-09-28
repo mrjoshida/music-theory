@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-09-28
+
+### Added
+- 18 new tuning presets across Guitar, Bass, Ukulele, Resonator Guitar, Guitalele, and Irish Bouzouki:
+  - Guitar: FACGCE, Drop C, Open A, Open D Minor, Drop C#, Drop B, C Standard, B Standard (Baritone), Open C6, New Standard.
+  - Bass: Bass Drop D, 5-String Bass BEADG, 6-String Bass BEADGC.
+  - Ukulele: Ukulele GCEA (low G), Ukulele ADF#B (reentrant).
+  - Resonator Guitar: Dobro Open G (GBDGBD).
+  - Guitalele: Guitalele ADGCEA.
+  - Irish Bouzouki: Irish Bouzouki GDAD.
+
+### Changed
+- Tuning presets in `TUNING_PRESETS` are now grouped by instrument (contiguous array order) so consumers can group them by `instrument` in array order; preset IDs remain unchanged.
+- Removed external source comments from `tunings.ts`.
+
 ## [0.2.1] - 2026-09-25
 
 ### Fixed
